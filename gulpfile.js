@@ -1,8 +1,8 @@
 "use strict";
 const gulp = require('gulp');
 const gutil = require('gulp-util');
-const rename = require('gulp-rename');
 const merge = require('merge2');
+const streamify = require('gulp-streamify');
 const runSequence = require('run-sequence');
 
 const persistify = require('persistify');
@@ -11,7 +11,6 @@ const tsify = require('tsify');
 const uglify = require('gulp-uglify');
 
 const source = require('vinyl-source-stream');
-const buffer = require('vinyl-buffer');
 
 const htmlmin = require('gulp-htmlmin');
 const cssnano = require('gulp-cssnano');
@@ -111,12 +110,10 @@ function buildVendor() {
 	.on('end', () => {
 		browserSync.reload();
 	})
-	.pipe(source('vendor.js'))
-	.pipe(buffer())
-	.pipe(rename('vendor.js'));
+	.pipe(source('vendor.js'));
 
 	if(isProduction) {
-		stream.pipe(uglify());
+		stream.pipe(streamify(uglify()));
 	}
 
 	return stream.pipe(gulp.dest(`${BUILD_DIR}/js`));
@@ -134,22 +131,21 @@ function buildScript() {
 	});
 
 	function bundle() {
-		let stream =  b.bundle()
+		let stream = b.bundle()
 		.on('error', swallowError)
 		.on('end', () => {
 			browserSync.reload();
 		})
-		.pipe(source('bundle.js'))
-		.pipe(buffer())
-		.pipe(rename('bundle.js'));
+		.on('error', swallowError)
+		.pipe(source('bundle.js'));
 
 		if(isProduction) {
-			stream.pipe(uglify());
+			stream.pipe(streamify(uglify()));
 		}
 
-		return stream.pipe(gulp.dest(`./${BUILD_DIR}/js`));
+		return stream.pipe(gulp.dest(`${BUILD_DIR}/js`));
 	}
-
+	
 	return bundle();
 }
 
