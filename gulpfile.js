@@ -9,9 +9,11 @@ const persistify = require('persistify');
 const watchify = require('watchify');
 const tsify = require('tsify');
 const uglify = require('gulp-uglify');
+const scssify = require('scssify');
 
 const source = require('vinyl-source-stream');
 
+const sass = require('gulp-sass');
 const htmlmin = require('gulp-htmlmin');
 const cssnano = require('gulp-cssnano');
 
@@ -68,19 +70,20 @@ function buildHtml() {
 	return run();
 }
 
-function buildCss() {
+function buildScss() {
 	let buildStartTime = null;
 	let buildEndTime = null;
 
 	function run() {
 		buildStartTime = new Date();
 
-		let stream = gulp.src(`${SRC_DIR}/css/app.css`)
+		let stream = gulp.src(`${SRC_DIR}/scss/app.scss`)
 		.on('error', swallowError)
 		.on('end', () => {
 			buildEndTime = new Date();
-			gutil.log(`Building CSS done. (Time elapsed ${buildEndTime - buildStartTime}ms.)`);
+			gutil.log(`Building SCSS done. (Time elapsed ${buildEndTime - buildStartTime}ms.)`);
 		})
+		.pipe(sass());
 
 		if(isProduction) {
 			stream.pipe(cssnano());
@@ -90,8 +93,8 @@ function buildCss() {
 		.pipe(browserSync.stream());
 	} 
 
-	gulp.watch(`${SRC_DIR}/css/**`, () => {
-		gutil.log('Detect CSS changes. Rebuilding...');
+	gulp.watch(`${SRC_DIR}/scss/**`, () => {
+		gutil.log('Detect SCSS changes. Rebuilding...');
 		return run();
 	});
 
@@ -126,8 +129,9 @@ function buildScript() {
 	.on('update', bundle)
 	.on('log', gutil.log)
 	.external(vendors)
-	.plugin(tsify, {
-		jsx: 'react'
+	.plugin(tsify)
+	.transform(scssify, {
+		autoInject: true
 	});
 
 	function bundle() {
@@ -162,7 +166,7 @@ function serve() {
 	});
 
 	gulp.watch(`${SRC_DIR}/html/**`, buildHtml);
-	gulp.watch(`${SRC_DIR}/css/**`, buildCss);
+	gulp.watch(`${SRC_DIR}/scss/**`, buildScss);
 
 	gulp.watch(`${BUILD_DIR}/html/index.html`).on('change', browserSync.reload);
 
@@ -177,7 +181,7 @@ gulp.task('default', () => {
 gulp.task('build', () => {
 	return merge([
 		buildHtml(),
-		buildCss(),
+		buildScss(),
 		buildScript(),
 		buildVendor()
 	]);
@@ -187,8 +191,8 @@ gulp.task('build::html', () => {
 	return buildHtml();
 });
 
-gulp.task('build::css', () => {
-	return buildCss();
+gulp.task('build::scss', () => {
+	return buildScss();
 });
 
 gulp.task('build::script', () => {

@@ -3,6 +3,7 @@ Boilerplate for Gulp + TypeScript + React + livereload. Basically it's based on 
 
 ## Features
 - Live reload
+- SASS compiling
 - React
 - JSX(TSX actually)
 - TypeScript
@@ -34,9 +35,9 @@ $ gulp
 ### gulp default
 By default, will proceed these steps:
 
-1. Build HTML/CSS/JS(From TS)
+1. Build HTML/SCSS/JS(From TS)
 2. Initiate browser-sync and serve resources
-3. Watch all changes and refresh or inject(css only)
+3. Watch all changes and refresh or inject(scss as css only)
 
 ### gulp serve
 Start browser-sync and serve resources, with watching all changes.
@@ -47,8 +48,8 @@ Build all resources.
 ### gulp build::html
 Build HTML resources. In production build, it uses gulp-htmlmin to minify HTML.
 
-### gulp build::css
-Build CSS resources. In production build, it uses gulp-cssnano to minify CSS.
+### gulp build::scss
+Build SCSS resources. In production build, it uses gulp-cssnano to minify CSS.
 
 ### gulp build::script
 Build TS resources. It will create two scripts, vendor.js and bundle.js.
