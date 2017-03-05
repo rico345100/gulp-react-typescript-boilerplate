@@ -2,7 +2,7 @@
   "name": "gulp-react-typescript-boilerplate",
   "version": "1.0.0",
   "description": "Boilerplate for Gulp + TypeScript + React + Livereload",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -29,6 +29,7 @@
     "gulp": "^3.9.1",
     "gulp-cssnano": "^2.1.2",
     "gulp-htmlmin": "^3.0.0",
+    "gulp-nodemon": "^2.2.1",
     "gulp-sass": "^3.1.0",
     "gulp-streamify": "^1.0.2",
     "gulp-uglify": "^2.0.1",
@@ -44,5 +45,8 @@
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.8.0",
     "yargs": "^7.0.1"
+  },
+  "dependencies": {
+    "express": "^4.15.0"
   }
 }

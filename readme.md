@@ -1,7 +1,8 @@
 # gulp-react-typescript-boilerplate
-Boilerplate for Gulp + TypeScript + React + livereload. Basically it's based on this [repo](https://github.com/rico345100/gulp-react-boilerplate).
+Boilerplate for Gulp + TypeScript + React + Express + Livereload. Basically it's based on this [repo](https://github.com/rico345100/gulp-react-boilerplate).
 
 ## Features
+- Express
 - Live reload
 - SASS compiling
 - React
@@ -11,16 +12,12 @@ Boilerplate for Gulp + TypeScript + React + livereload. Basically it's based on 
 
 
 ## To Start
-This project will provides as minimal as possible, so if you want to add some more functionalities, 
-Using sass or TypeScript, you must do it yourself.
-
-Basic usage is:
-
+Install dependencies first.
 ```bash
 $ npm install
 ```
 
-To install all dependencies first. Note that you must installed gulp globally if you didn't.
+Note that you must installed gulp globally if you didn't.
 ```bash
 $ npm install -g gulp
 ```
@@ -35,12 +32,15 @@ $ gulp
 ### gulp default
 By default, will proceed these steps:
 
-1. Build HTML/SCSS/JS(From TS)
-2. Initiate browser-sync and serve resources
-3. Watch all changes and refresh or inject(scss as css only)
+1. Build HTML/SCSS/TS
+2. Start Express server and initiate browser-sync
+3. Watch all changes and refresh or inject(scss as css only) your client resources.
 
 ### gulp serve
-Start browser-sync and serve resources, with watching all changes.
+Start server with Express, also initiate Browser-Sync with Express server.
+Express will uses port number in config.json(default 3000), and Browser-Sync will uses proxyPort number in config.json(default 4000).
+After you change your server side code, nodemon will restarts Express server automatically.
+If you change your clients side resources, browser-sync will reload or inject client resources automatically.
 
 ### gulp build
 Build all resources.
@@ -57,15 +57,8 @@ vendor.js contains common scripts and bundle.js contains actual your code.
 
 
 ## Production Build
-To set your application production mode, simply add --p or --prod or --production when using gulp:
-
-```bash
-// Run everything with Production state
-$ gulp --p
-
-// Build JS only with Production state
-$ gulp build::script --p
-```
+To set your application production mode, simply update "environment" inside of config.json to "production".
+Also don't run your server with "gulp serve" in production state!
 
 
 ## License
