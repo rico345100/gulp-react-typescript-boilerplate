@@ -60,6 +60,14 @@ vendor.js contains common scripts and bundle.js contains actual your code.
 To set your application production mode, simply update "environment" inside of config.json to "production".
 Also don't run your server with "gulp serve" in production state!
 
+## One time build
+If you want to build only just one time, simply just add --once option.
+```bash
+$ gulp build --once
+```
+
+This will no watch files and gulp will finish when it's all built.
+
 
 ## License
 MIT. Free to use. Also this project will gonna update continuously.
