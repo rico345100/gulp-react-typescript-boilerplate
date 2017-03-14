@@ -167,7 +167,10 @@ function buildScript() {
 function serve() {
 	let serverStarted = false;
 
-	nodemon({ script: 'server.js' })
+	nodemon({ 
+		script: 'server.js',
+		ignore: ['src/**', 'build/**']
+	})
 	.on('start', () => {
 		if(!serverStarted) {
 			serverStarted = true;
