@@ -3,7 +3,7 @@ Boilerplate for Gulp + TypeScript + React + Express + Livereload. Basically it's
 
 ## Features
 - Express
-- Live reload
+- Livereload (feat. Browser-Sync), also support remote Livereload via Browser-Sync proxy
 - SASS compiling
 - React
 - JSX(TSX actually)

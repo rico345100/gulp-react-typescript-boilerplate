@@ -87,7 +87,10 @@ function buildScss() {
 			buildEndTime = new Date();
 			gutil.log(`Building SCSS done. (Time elapsed ${buildEndTime - buildStartTime}ms.)`);
 		})
-		.pipe(sass());
+		.pipe(
+			sass()
+			.on('error', sass.logError)
+		);
 
 		if(isProduction) {
 			stream.pipe(cssnano());
@@ -142,7 +145,10 @@ function buildScript() {
 	.external(vendors)
 	.plugin(tsify)
 	.transform(scssify, {
-		autoInject: true
+		autoInject: true,
+		sass: {
+			"includePaths": [`${SRC_DIR}/scss`]
+		}
 	});
 
 	function bundle() {
